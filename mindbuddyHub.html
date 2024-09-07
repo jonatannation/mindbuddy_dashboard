@@ -1,0 +1,255 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Mindbuddy Hub - Sports Psychologist Dashboard</title>
+    <link href="https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@700&family=Inter:wght@500;600&display=swap" rel="stylesheet">
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css" rel="stylesheet">
+    <script>
+        tailwind.config = {
+            theme: {
+                extend: {
+                    colors: {
+                        mindbuddy: {
+                            navy: '#293A4A',
+                            lightblue: '#68B2FC',
+                            gray: '#666666',
+                            lightgray: '#F2F2F2',
+                            red: '#FF7970',
+                            yellow: '#FFA828',
+                            green: '#68FC9B',
+                        },
+                    },
+                    fontFamily: {
+                        'space-grotesk': ['Space Grotesk', 'sans-serif'],
+                        'inter': ['Inter', 'sans-serif'],
+                    },
+                },
+            },
+        }
+    </script>
+    <style>
+        .card-shadow {
+            box-shadow: 0px 8px 20px rgba(1, 50, 18, 0.02), 0px 0px 16px rgba(4, 109, 40, 0.06);
+        }
+        .hover-zoom {
+            transition: transform 0.3s ease-in-out;
+        }
+    </style>
+</head>
+<body class="bg-mindbuddy-lightgray font-inter">
+    <div class="flex h-screen overflow-hidden">
+        <!-- Sidebar -->
+        <aside class="bg-gray-200 w-64 flex-shrink-0 overflow-y-auto fixed h-full flex flex-col">
+            <div class="p-4 flex-grow">
+                <div class="flex items-center mb-8">
+                    <img src="Assets/LogoText.png" alt="Mindbuddy Logo" class="h-8 w-auto">
+                </div>
+                <nav>
+                    <ul>
+                        <li class="mb-4">
+                            <a href="index.html" class="flex items-center text-gray-800 hover:text-mindbuddy-lightblue transition duration-300">
+                                <i class="fas fa-chart-line w-8 mr-3 text-center"></i>
+                                <span>Overview</span>
+                            </a>
+                        </li>
+                        <li class="mb-4">
+                            <a href="loggedSessions.html" class="flex items-center hover:text-mindbuddy-lightblue transition duration-300">
+                                <i class="fas fa-clipboard-list w-8 mr-3 text-center"></i>
+                                <span>Logged Sessions</span>
+                            </a>
+                        </li>
+                        <li class="mb-4">
+                            <a href="messaging.html" class="flex items-center text-gray-800 hover:text-mindbuddy-lightblue transition duration-300">
+                                <i class="fas fa-comments w-8 mr-3 text-center"></i>
+                                <span>Messaging</span>
+                            </a>
+                        </li>
+                        <li class="mb-4">
+                            <a href="calendar.html" class="flex items-center text-gray-800 hover:text-mindbuddy-lightblue transition duration-300">
+                                <i class="fas fa-calendar w-8 mr-3 text-center"></i>
+                                <span>Calendar</span>
+                            </a>
+                        </li>
+                        <li class="mb-4">
+                            <a href="reports.html" class="flex items-center text-gray-800 hover:text-mindbuddy-lightblue transition duration-300">
+                                <i class="fas fa-file-alt w-8 mr-3 text-center"></i>
+                                <span>Reports</span>
+                            </a>
+                        </li>
+                        <li class="mb-4">
+                            <a href="mindbuddyHub.html" class="flex items-center text-gray-800 text-mindbuddy-lightblue transition duration-300">
+                                <i class="fas fa-book w-8 mr-3 text-center"></i>
+                                <span>Mindbuddy Hub</span>
+                            </a>
+                        </li>
+                        <li class="mb-4">
+                            <a href="settings.html" class="flex items-center text-gray-800 hover:text-mindbuddy-lightblue transition duration-300">
+                                <i class="fas fa-cog w-8 mr-3 text-center"></i>
+                                <span>Settings</span>
+                            </a>
+                        </li>
+                    </ul>
+                </nav>
+            </div>
+            <div class="p-4 border-t border-gray-300">
+                <a href="#" class="flex items-center text-gray-800 hover:text-mindbuddy-lightblue transition duration-300">
+                    <i class="fas fa-sign-out-alt w-8 mr-3 text-center"></i>
+                    <span>Log out</span>
+                </a>
+            </div>
+        </aside>
+
+        <!-- Main content -->
+        <div class="flex-1 overflow-y-auto ml-64">
+            <div class="p-10">
+                <h1 class="text-3xl font-semibold mb-6 font-space-grotesk">Mindbuddy Hub</h1>
+                
+                <!-- Personal Resources -->
+                <section class="mb-12">
+                    <h2 class="text-2xl font-semibold mb-6 font-space-grotesk">Personal Resources</h2>
+                    <div class="grid grid-cols-1 md:grid-cols-3 gap-8">
+                        <!-- Videos -->
+                        <div class="bg-white rounded-lg card-shadow p-6 relative">
+                            <h3 class="text-xl font-semibold text-mindbuddy-navy mb-4">Most Shared Videos</h3>
+                            <ul class="space-y-3 mb-12">
+                                <li>
+                                    <a href="#" class="text-mindbuddy-gray hover:text-mindbuddy-lightblue">Visualization Techniques</a>
+                                </li>
+                                <li>
+                                    <a href="#" class="text-mindbuddy-gray hover:text-mindbuddy-lightblue">Pre-game Routines</a>
+                                </li>
+                            </ul>
+                            <button class="absolute bottom-4 right-4 bg-mindbuddy-navy text-white px-4 py-2 rounded-md hover:bg-opacity-80 transition duration-300" onclick="openModal('videoModal')">
+                                Add Video
+                            </button>
+                        </div>
+                        <!-- Images -->
+                        <div class="bg-white rounded-lg card-shadow p-6 relative">
+                            <h3 class="text-xl font-semibold text-mindbuddy-navy mb-4">Images</h3>
+                            <div class="grid grid-cols-3 gap-2 mb-12">
+                                <img src="https://images.unsplash.com/photo-1461896836934-ffe607ba8211?ixlib=rb-1.2.1&auto=format&fit=crop&w=300&q=80" alt="Athlete visualizing" class="w-full h-20 object-cover rounded cursor-pointer" onclick="openModal('imageModal', this.src)">
+                                <img src="https://images.unsplash.com/photo-1519311965067-36d3e5f33d39?ixlib=rb-1.2.1&auto=format&fit=crop&w=300&q=80" alt="Team huddle" class="w-full h-20 object-cover rounded cursor-pointer" onclick="openModal('imageModal', this.src)">
+                                <img src="https://images.unsplash.com/photo-1552674605-db6ffd4facb5?ixlib=rb-1.2.1&auto=format&fit=crop&w=300&q=80" alt="Athlete meditating" class="w-full h-20 object-cover rounded cursor-pointer" onclick="openModal('imageModal', this.src)">
+                            </div>
+                            <button class="absolute bottom-4 right-4 bg-mindbuddy-navy text-white px-4 py-2 rounded-md hover:bg-opacity-80 transition duration-300" onclick="openModal('uploadModal')">
+                                Upload
+                            </button>
+                        </div>
+                        <!-- Links -->
+                        <div class="bg-white rounded-lg card-shadow p-6 relative">
+                            <h3 class="text-xl font-semibold text-mindbuddy-navy mb-4">Most Shared Links</h3>
+                            <ul class="space-y-3 mb-12">
+                                <li>
+                                    <a href="#" class="text-mindbuddy-gray hover:text-mindbuddy-lightblue">Sports Psychology Journal</a>
+                                </li>
+                                <li>
+                                    <a href="#" class="text-mindbuddy-gray hover:text-mindbuddy-lightblue">Mental Training Resources</a>
+                                </li>
+                            </ul>
+                            <button class="absolute bottom-4 right-4 bg-mindbuddy-navy text-white px-4 py-2 rounded-md hover:bg-opacity-80 transition duration-300" onclick="openModal('linkModal')">
+                                Add Link
+                            </button>
+                        </div>
+                    </div>
+                </section>
+
+                <!-- Mindbuddy Resources -->
+                <section class="mb-12">
+                    <h2 class="text-2xl font-semibold mb-6 font-space-grotesk">Mindbuddy Resources</h2>
+                    <div class="grid grid-cols-1 md:grid-cols-2 gap-8">
+                        <!-- Articles -->
+                        <div class="bg-white rounded-lg card-shadow p-6">
+                            <h3 class="text-xl font-semibold mb-4 text-mindbuddy-navy">Latest Articles</h3>
+                            <ul class="space-y-3">
+                                <li class="flex items-start">
+                                    <div class="flex-grow pr-4">
+                                        <h4 class="font-semibold">Enhancing Team Cohesion in Youth Sports</h4>
+                                    </div>
+                                    <a href="#" class="text-mindbuddy-lightblue hover:underline whitespace-nowrap">Read more</a>
+                                </li>
+                                <li class="flex items-start">
+                                    <div class="flex-grow pr-4">
+                                        <h4 class="font-semibold">The Role of Mindfulness in Athletic Performance</h4>
+                                    </div>
+                                    <a href="#" class="text-mindbuddy-lightblue hover:underline whitespace-nowrap">Read more</a>
+                                </li>
+                            </ul>
+                        </div>
+                        <!-- Success Stories -->
+                        <div class="bg-white rounded-lg card-shadow p-6">
+                            <h3 class="text-xl font-semibold mb-4 text-mindbuddy-navy">Success Stories</h3>
+                            <div class="space-y-4">
+                                <div class="flex items-start">
+                                    <img src="https://images.unsplash.com/photo-1517466787929-bc90951d0974?ixlib=rb-1.2.1&auto=format&fit=crop&w=100&q=80" alt="FC Barcelona" class="w-16 h-16 rounded-full object-cover mr-4 flex-shrink-0">
+                                    <div class="flex-grow pr-4">
+                                        <h4 class="font-semibold">FC Barcelona's Mental Training Program</h4>
+                                    </div>
+                                    <a href="#" class="text-mindbuddy-lightblue hover:underline whitespace-nowrap">Read more</a>
+                                </div>
+                                <div class="flex items-start">
+                                    <img src="https://images.unsplash.com/photo-1579952363873-27f3bade9f55?ixlib=rb-1.2.1&auto=format&fit=crop&w=100&q=80" alt="US Women's Soccer Team" class="w-16 h-16 rounded-full object-cover mr-4 flex-shrink-0">
+                                    <div class="flex-grow pr-4">
+                                        <h4 class="font-semibold">US Women's Soccer Team's Psychological Edge</h4>
+                                    </div>
+                                    <a href="#" class="text-mindbuddy-lightblue hover:underline whitespace-nowrap">Read more</a>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </section>
+
+                <!-- Workshops and Implementation Tips -->
+                <section>
+                    <h2 class="text-2xl font-semibold mb-6 font-space-grotesk">Workshops & Implementation</h2>
+                    <div class="grid grid-cols-1 md:grid-cols-2 gap-8">
+                        <!-- Workshops -->
+                        <div class="bg-white rounded-lg card-shadow p-6">
+                            <h3 class="text-xl font-semibold mb-4 text-mindbuddy-navy">Available Workshops</h3>
+                            <div class="space-y-3">
+                                <div class="flex items-center justify-between">
+                                    <p class="pr-4">Team Building Workshop</p>
+                                    <a href="#" class="text-mindbuddy-lightblue hover:underline whitespace-nowrap">View Details</a>
+                                </div>
+                                <div class="flex items-center justify-between">
+                                    <p class="pr-4">Goal Setting and Visualization</p>
+                                    <a href="#" class="text-mindbuddy-lightblue hover:underline whitespace-nowrap">View Details</a>
+                                </div>
+                            </div>
+                        </div>
+                        <!-- Implementation Tips -->
+                        <div class="bg-white rounded-lg card-shadow p-6">
+                            <h3 class="text-xl font-semibold mb-4 text-mindbuddy-navy">Implementation Tips</h3>
+                            <ul class="list-disc space-y-3 pl-5">
+                                <li class="pl-1">
+                                    <span class="block">How to best integrate mental training into daily practice routines</span>
+                                </li>
+                                <li class="pl-1">
+                                    <span class="block">Best practice on one-on-one check-ins with athletes</span>
+                                </li>
+                                <li class="pl-1">
+                                    <span class="block">Organize team-building exercises focused on communication and trust</span>
+                                </li>
+                            </ul>
+                        </div>
+                    </div>
+                </section>
+            </div>
+        </div>
+    </div>
+
+    <!-- Modals (Add modals for video, image, and link as needed) -->
+
+    <script>
+        function openModal(modalId, imageSrc = '') {
+            // Implement modal opening logic
+        }
+
+        function closeModal(modalId) {
+            // Implement modal closing logic
+        }
+    </script>
+</body>
+</html>
