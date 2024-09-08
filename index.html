@@ -71,6 +71,10 @@
         .user-driven-box h3 {
             font-family: 'Space Grotesk', sans-serif;
         }
+        aside {
+            display: flex;
+            flex-direction: column;
+        }
     </style>
 </head>
 <body class="bg-mindbuddy-lightgray font-inter">
@@ -78,6 +82,7 @@
 
                 <!-- Sidebar -->
                 <aside class="bg-gray-200 w-64 flex-shrink-0 overflow-y-auto fixed h-full flex flex-col">
+
                     <div class="p-4 flex-grow">
                         <div class="flex items-center mb-8">
                             <img src="Assets/LogoText.png" alt="Mindbuddy Logo" class="h-8 w-auto">
@@ -128,6 +133,16 @@
                                 </li>
                             </ul>
                         </nav>
+                    </div>
+                    <div class="p-4 mt-auto">
+                        <div class="bg-white rounded-lg shadow-md p-6 user-driven-box">
+                            <h3 class="text-lg font-semibold mb-4 font-space-grotesk">The dashboard is user-driven!</h3>
+                            <p class="text-sm mb-4">
+                                On our Trello board, you can see planned new features. You’re welcome to suggest new ones and vote on others’ ideas, helping shape the future of the Mindbuddy dashboard!                            </p>
+                            <a href="#" class="inline-block bg-mindbuddy-navy text-white text-sm py-2 px-4 rounded hover:bg-opacity-90 transition duration-300">
+                                Contribute
+                            </a>
+                        </div>
                     </div>
                     <div class="p-4 border-t border-gray-300">
                         <a href="#" class="flex items-center text-gray-800 hover:text-mindbuddy-lightblue transition duration-300">
@@ -364,15 +379,17 @@ document.addEventListener('DOMContentLoaded', function() {
 
         // Update team status color
         const statusElement = document.getElementById(`${team}-status`);
+        const cardElement = document.getElementById(`${team}-card`);
+        
         if (overallScore < 70) {
             statusElement.style.backgroundColor = colors.red;
-            document.getElementById(`${team}-card`).style.borderLeftColor = colors.red;
+            cardElement.style.borderLeftColor = colors.red;
         } else if (overallScore < 85) {
             statusElement.style.backgroundColor = colors.yellow;
-            document.getElementById(`${team}-card`).style.borderLeftColor = colors.yellow;
+            cardElement.style.borderLeftColor = colors.yellow;
         } else {
             statusElement.style.backgroundColor = colors.green;
-            document.getElementById(`${team}-card`).style.borderLeftColor = colors.green;
+            cardElement.style.borderLeftColor = colors.green;
         }
 
         // Create more realistic chart data
