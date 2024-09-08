@@ -65,6 +65,12 @@
         .main-content a:not(.btn):hover {
             text-decoration: underline;
         }
+        .user-driven-box {
+            font-family: 'Inter', sans-serif;
+        }
+        .user-driven-box h3 {
+            font-family: 'Space Grotesk', sans-serif;
+        }
     </style>
 </head>
 <body class="bg-mindbuddy-lightgray font-inter">
@@ -361,7 +367,7 @@ document.addEventListener('DOMContentLoaded', function() {
         if (overallScore < 70) {
             statusElement.style.backgroundColor = colors.red;
             document.getElementById(`${team}-card`).style.borderLeftColor = colors.red;
-        } else if (overallScore < 80) {
+        } else if (overallScore < 85) {
             statusElement.style.backgroundColor = colors.yellow;
             document.getElementById(`${team}-card`).style.borderLeftColor = colors.yellow;
         } else {
