@@ -137,50 +137,89 @@
                 
                 <!-- Team cards -->
                 <div class="grid grid-cols-1 md:grid-cols-3 gap-4 mb-8">
-                    <!-- U15 Team (Low Performance - Red) -->
-                    <div class="bg-white p-4 rounded-lg card-shadow border-l-4 border-mindbuddy-red">
-                        <h3 class="text-xl font-semibold mb-2 text-gray-800 font-space-grotesk">Team: U15</h3>
-                        <div class="flex items-center mb-2">
-                            <span class="text-gray-800 text-sm mr-2">Team status:</span>
-                            <div class="w-3 h-3 rounded-full bg-mindbuddy-red"></div>
+                    <!-- U15 Team -->
+                    <div class="bg-white p-4 rounded-lg card-shadow border-l-4" id="u15-card">
+                        <h3 class="text-xl font-semibold mb-4 text-gray-800 font-space-grotesk">Team: U15</h3>
+                        <div class="space-y-2 mb-4">
+                            <div class="flex items-center">
+                                <span class="text-gray-800 text-sm w-32">Team status:</span>
+                                <div id="u15-status" class="w-3 h-3 rounded-full ml-2"></div>
+                            </div>
+                            <div class="flex items-center">
+                                <span class="text-gray-800 text-sm w-32">Task completion:</span>
+                                <span id="u15-task-completion" class="text-gray-800 text-sm ml-2"></span>
+                            </div>
+                            <div class="flex items-center">
+                                <span class="text-gray-800 text-sm w-32">Overall Joy:</span>
+                                <span id="u15-joy" class="text-gray-800 text-sm ml-2"></span>
+                            </div>
+                            <div class="flex items-center">
+                                <span class="text-gray-800 text-sm w-32">Overall Motivation:</span>
+                                <span id="u15-motivation" class="text-gray-800 text-sm ml-2"></span>
+                            </div>
                         </div>
-                        <div class="mb-3">
-                            <span class="font-semibold text-gray-800 text-sm">Task completion:</span>
-                            <span class="ml-1 text-gray-800 text-sm">45%</span>
+                        <div class="mb-4">
+                            <canvas id="u15-chart" width="100%" height="100"></canvas>
                         </div>
-                        <div class="flex justify-end mt-4">
+                        <div class="flex justify-end">
                             <a href="#" data-popup="team-details" class="text-mindbuddy-navy hover:text-mindbuddy-lightblue transition duration-300">Team details</a>
                         </div>
                     </div>
 
-                    <!-- U17 Team (Good Performance - Green) -->
-                    <div class="bg-white p-4 rounded-lg card-shadow border-l-4 border-mindbuddy-green">
-                        <h3 class="text-xl font-semibold mb-2 text-gray-800 font-space-grotesk">Team: U17</h3>
-                        <div class="flex items-center mb-2">
-                            <span class="text-gray-800 text-sm mr-2">Team status:</span>
-                            <div class="w-3 h-3 rounded-full bg-mindbuddy-green"></div>
+                    <!-- U17 Team -->
+                    <div class="bg-white p-4 rounded-lg card-shadow border-l-4" id="u17-card">
+                        <h3 class="text-xl font-semibold mb-4 text-gray-800 font-space-grotesk">Team: U17</h3>
+                        <div class="space-y-2 mb-4">
+                            <div class="flex items-center">
+                                <span class="text-gray-800 text-sm w-32">Team status:</span>
+                                <div id="u17-status" class="w-3 h-3 rounded-full ml-2"></div>
+                            </div>
+                            <div class="flex items-center">
+                                <span class="text-gray-800 text-sm w-32">Task completion:</span>
+                                <span id="u17-task-completion" class="text-gray-800 text-sm ml-2"></span>
+                            </div>
+                            <div class="flex items-center">
+                                <span class="text-gray-800 text-sm w-32">Overall Joy:</span>
+                                <span id="u17-joy" class="text-gray-800 text-sm ml-2"></span>
+                            </div>
+                            <div class="flex items-center">
+                                <span class="text-gray-800 text-sm w-32">Overall Motivation:</span>
+                                <span id="u17-motivation" class="text-gray-800 text-sm ml-2"></span>
+                            </div>
                         </div>
-                        <div class="mb-3">
-                            <span class="font-semibold text-gray-800 text-sm">Task completion:</span>
-                            <span class="ml-1 text-gray-800 text-sm">75%</span>
+                        <div class="mb-4">
+                            <canvas id="u17-chart" width="100%" height="100"></canvas>
                         </div>
-                        <div class="flex justify-end mt-4">
+                        <div class="flex justify-end">
                             <a href="#" data-popup="team-details" class="text-mindbuddy-navy hover:text-mindbuddy-lightblue transition duration-300">Team details</a>
                         </div>
                     </div>
 
-                    <!-- U19 Team (Average Performance - Yellow) -->
-                    <div class="bg-white p-4 rounded-lg card-shadow border-l-4 border-mindbuddy-yellow">
-                        <h3 class="text-xl font-semibold mb-2 text-gray-800 font-space-grotesk">Team: U19</h3>
-                        <div class="flex items-center mb-2">
-                            <span class="text-gray-800 text-sm mr-2">Team status:</span>
-                            <div class="w-3 h-3 rounded-full bg-mindbuddy-yellow"></div>
+                    <!-- U19 Team -->
+                    <div class="bg-white p-4 rounded-lg card-shadow border-l-4" id="u19-card">
+                        <h3 class="text-xl font-semibold mb-4 text-gray-800 font-space-grotesk">Team: U19</h3>
+                        <div class="space-y-2 mb-4">
+                            <div class="flex items-center">
+                                <span class="text-gray-800 text-sm w-32">Team status:</span>
+                                <div id="u19-status" class="w-3 h-3 rounded-full ml-2"></div>
+                            </div>
+                            <div class="flex items-center">
+                                <span class="text-gray-800 text-sm w-32">Task completion:</span>
+                                <span id="u19-task-completion" class="text-gray-800 text-sm ml-2"></span>
+                            </div>
+                            <div class="flex items-center">
+                                <span class="text-gray-800 text-sm w-32">Overall Joy:</span>
+                                <span id="u19-joy" class="text-gray-800 text-sm ml-2"></span>
+                            </div>
+                            <div class="flex items-center">
+                                <span class="text-gray-800 text-sm w-32">Overall Motivation:</span>
+                                <span id="u19-motivation" class="text-gray-800 text-sm ml-2"></span>
+                            </div>
                         </div>
-                        <div class="mb-3">
-                            <span class="font-semibold text-gray-800 text-sm">Task completion:</span>
-                            <span class="ml-1 text-gray-800 text-sm">65%</span>
+                        <div class="mb-4">
+                            <canvas id="u19-chart" width="100%" height="100"></canvas>
                         </div>
-                        <div class="flex justify-end mt-4">
+                        <div class="flex justify-end">
                             <a href="#" data-popup="team-details" class="text-mindbuddy-navy hover:text-mindbuddy-lightblue transition duration-300">Team details</a>
                         </div>
                     </div>
@@ -296,48 +335,77 @@
 
 <script>
 document.addEventListener('DOMContentLoaded', function() {
-    // Chart.js configuration for circular progress charts
-    const createCircularChart = (elementId, value, color) => {
-        const element = document.getElementById(elementId);
-        if (element) {
-            new Chart(element, {
-                type: 'doughnut',
-                data: {
-                    datasets: [{
-                        data: [value, 100 - value],
-                        backgroundColor: [color, '#E5E7EB'],
-                        borderWidth: 0
-                    }]
+    const teams = ['u15', 'u17', 'u19'];
+    const colors = {
+        red: '#FF7970',
+        yellow: '#FFA828',
+        green: '#68FC9B'
+    };
+
+    const months = ['Oct', 'Nov', 'Dec', 'Jan', 'Feb', 'Mar', 'Apr', 'May', 'Jun', 'Jul', 'Aug', 'Sep'];
+
+    teams.forEach(team => {
+        // Simulated data - replace with actual data in a real application
+        const taskCompletion = Math.floor(Math.random() * (100 - 70) + 70); // 70-100%
+        const joy = Math.floor(Math.random() * (100 - 50) + 50); // 50-100
+        const motivation = Math.floor(Math.random() * (100 - 50) + 50); // 50-100
+        const overallScore = (taskCompletion + joy + motivation) / 3;
+
+        // Update task completion, joy, and motivation
+        document.getElementById(`${team}-task-completion`).textContent = `${taskCompletion}%`;
+        document.getElementById(`${team}-joy`).textContent = `${joy}/100`;
+        document.getElementById(`${team}-motivation`).textContent = `${motivation}/100`;
+
+        // Update team status color
+        const statusElement = document.getElementById(`${team}-status`);
+        if (overallScore < 70) {
+            statusElement.style.backgroundColor = colors.red;
+            document.getElementById(`${team}-card`).style.borderLeftColor = colors.red;
+        } else if (overallScore < 80) {
+            statusElement.style.backgroundColor = colors.yellow;
+            document.getElementById(`${team}-card`).style.borderLeftColor = colors.yellow;
+        } else {
+            statusElement.style.backgroundColor = colors.green;
+            document.getElementById(`${team}-card`).style.borderLeftColor = colors.green;
+        }
+
+        // Create more realistic chart data
+        const chartData = Array.from({length: 12}, (_, i) => {
+            const baseValue = 70; // Start from a base value
+            const maxVariation = 15; // Maximum variation up or down
+            return baseValue + Math.floor(Math.random() * maxVariation * 2) - maxVariation;
+        });
+
+        // Create line chart
+        const ctx = document.getElementById(`${team}-chart`).getContext('2d');
+        new Chart(ctx, {
+            type: 'line',
+            data: {
+                labels: months,
+                datasets: [{
+                    label: 'Overall',
+                    data: chartData,
+                    borderColor: '#68B2FC',
+                    tension: 0.1
+                }]
+            },
+            options: {
+                responsive: true,
+                maintainAspectRatio: false,
+                scales: {
+                    y: {
+                        beginAtZero: true,
+                        max: 100
+                    }
                 },
-                options: {
-                    cutout: '70%',
-                    responsive: true,
-                    maintainAspectRatio: false,
+                plugins: {
                     legend: {
                         display: false
-                    },
-                    tooltips: {
-                        enabled: false
                     }
                 }
-            });
-        }
-    };
-    
-    // Create charts for U15 Team
-    createCircularChart('u15Joy', 50, '#68B2FC');
-    createCircularChart('u15Mood', 45, '#68B2FC');
-    createCircularChart('u15Motivation', 40, '#68B2FC');
-    
-    // Create charts for U17 Team
-    createCircularChart('u17Joy', 78, '#0064C1');
-    createCircularChart('u17Mood', 72, '#0064C1');
-    createCircularChart('u17Motivation', 76, '#0064C1');
-    
-    // Create charts for U19 Team
-    createCircularChart('u19Joy', 70, '#68B2FC');
-    createCircularChart('u19Mood', 65, '#68B2FC');
-    createCircularChart('u19Motivation', 69, '#68B2FC');
+            }
+        });
+    });
 
     // Popup functionality
     const overlay = document.getElementById('overlay');
