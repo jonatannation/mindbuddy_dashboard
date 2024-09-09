@@ -1,432 +1,83 @@
-<!DOCTYPE html>
-<html lang="en">
-<head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Reports - Mindbuddy</title>
-    <link href="https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@700&family=Inter:wght@500;600&display=swap" rel="stylesheet">
-    <script src="https://cdn.tailwindcss.com"></script>
-    <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css" rel="stylesheet">
-    <script>
-        tailwind.config = {
-            theme: {
-                extend: {
-                    colors: {
-                        mindbuddy: {
-                            navy: '#293A4A',
-                            lightblue: '#68B2FC',
-                            gray: '#666666',
-                            lightgray: '#F2F2F2',
-                            red: '#FF7970',
-                            yellow: '#FFA828',
-                            green: '#68FC9B',
-                        },
-                    },
-                    fontFamily: {
-                        'space-grotesk': ['Space Grotesk', 'sans-serif'],
-                        'inter': ['Inter', 'sans-serif'],
-                    },
-                },
-            },
-        }
-    </script>
-    <style>
-        .card-shadow {
-            box-shadow: 0px 8px 20px rgba(1, 50, 18, 0.02), 0px 0px 16px rgba(4, 109, 40, 0.06);
-        }
-        @keyframes spin {
-            0% { transform: rotate(0deg); }
-            100% { transform: rotate(360deg); }
-        }
-        .animate-spin {
-            animation: spin 2s linear infinite;
-        }
-        select {
-            background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' fill='none' viewBox='0 0 24 24' stroke='%23666666'%3E%3Cpath stroke-linecap='round' stroke-linejoin='round' stroke-width='2' d='M19 9l-7 7-7-7'%3E%3C/path%3E%3C/svg%3E");
-            background-repeat: no-repeat;
-            background-position: right 0.5rem center;
-            background-size: 1.5em 1.5em;
-            padding-right: 2.5rem;
-        }
-    </style>
-</head>
-<body class="bg-mindbuddy-lightgray font-inter">
-    <div class="flex h-screen overflow-hidden">
-        <!-- Sidebar -->
-        <aside class="bg-gray-200 w-64 flex-shrink-0 overflow-y-auto fixed h-full flex flex-col">
-            <div class="p-4 flex-grow">
-                <div class="flex items-center mb-8">
-                    <img src="Assets/LogoText.png" alt="Mindbuddy Logo" class="h-8 w-auto">
-                </div>
-                <nav>
-                    <ul>
-                        <li class="mb-4">
-                            <a href="index.html" class="flex items-center text-gray-800 hover:text-mindbuddy-lightblue transition duration-300">
-                                <i class="fas fa-chart-line w-8 mr-3 text-center"></i>
-                                <span>Overview</span>
-                            </a>
-                        </li>
-                        <li class="mb-4">
-                            <a href="loggedSessions.html" class="flex items-center text-gray-800 hover:text-mindbuddy-lightblue transition duration-300">
-                                <i class="fas fa-clipboard-list w-8 mr-3 text-center"></i>
-                                <span>Logged Sessions</span>
-                            </a>
-                        </li>
-                        <li class="mb-4">
-                            <a href="messaging.html" class="flex items-center text-gray-800 hover:text-mindbuddy-lightblue transition duration-300">
-                                <i class="fas fa-comments w-8 mr-3 text-center"></i>
-                                <span>Messaging</span>
-                            </a>
-                        </li>
-                        <li class="mb-4">
-                            <a href="calendar.html" class="flex items-center text-gray-800 hover:text-mindbuddy-lightblue transition duration-300">
-                                <i class="fas fa-calendar w-8 mr-3 text-center"></i>
-                                <span>Calendar</span>
-                            </a>
-                        </li>
-                        <li class="mb-4">
-                            <a href="reports.html" class="flex items-center text-mindbuddy-lightblue transition duration-300">
-                                <i class="fas fa-file-alt w-8 mr-3 text-center"></i>
-                                <span>Reports</span>
-                            </a>
-                        </li>
-                        <li class="mb-4">
-                            <a href="mindbuddyHub.html" class="flex items-center text-gray-800 hover:text-mindbuddy-lightblue transition duration-300">
-                                <i class="fas fa-book w-8 mr-3 text-center"></i>
-                                <span>Mindbuddy Hub</span>
-                            </a>
-                        </li>
-                        <li class="mb-4">
-                            <a href="settings.html" class="flex items-center text-gray-800 hover:text-mindbuddy-lightblue transition duration-300">
-                                <i class="fas fa-cog w-8 mr-3 text-center"></i>
-                                <span>Settings</span>
-                            </a>
-                        </li>
-                    </ul>
-                </nav>
+<h1 class="text-3xl font-semibold mb-6 font-space-grotesk">Reports</h1>
+
+<!-- Report Generation Form -->
+<section class="bg-white rounded-lg card-shadow p-6 mb-8">
+    <h2 class="text-2xl font-semibold mb-4 text-mindbuddy-navy">Generate Custom Report</h2>
+    <form id="reportForm">
+        <div class="grid grid-cols-1 md:grid-cols-2 gap-6 mb-6">
+            <div>
+                <label for="team" class="block text-sm font-medium text-mindbuddy-gray mb-2">Team</label>
+                <select id="team" name="team" class="w-full p-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-mindbuddy-lightblue text-gray-700 bg-white appearance-none">
+                    <option value="">Select Team</option>
+                    <option value="team1">U17 Team</option>
+                    <option value="team2">Senior Team</option>
+                    <option value="team3">Women's Team</option>
+                </select>
             </div>
-            <div class="p-4 border-t border-gray-300">
-                <a href="#" class="flex items-center text-gray-800 hover:text-mindbuddy-lightblue transition duration-300">
-                    <i class="fas fa-sign-out-alt w-8 mr-3 text-center"></i>
-                    <span>Log out</span>
-                </a>
-            </div>
-        </aside>
-
-        <!-- Main content -->
-        <div class="flex-1 overflow-y-auto ml-64">
-            <div class="p-10">
-                <h1 class="text-3xl font-semibold mb-6 font-space-grotesk">Reports</h1>
-                
-                <!-- Report Generation Form -->
-                <section class="bg-white rounded-lg card-shadow p-6 mb-8">
-                    <h2 class="text-2xl font-semibold mb-4 text-mindbuddy-navy">Generate Custom Report</h2>
-                    <form id="reportForm">
-                        <div class="grid grid-cols-1 md:grid-cols-2 gap-6 mb-6">
-                            <div>
-                                <label for="team" class="block text-sm font-medium text-mindbuddy-gray mb-2">Team</label>
-                                <select id="team" name="team" class="w-full p-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-mindbuddy-lightblue text-gray-700 bg-white appearance-none">
-                                    <option value="">Select Team</option>
-                                    <option value="team1">U17 Team</option>
-                                    <option value="team2">Senior Team</option>
-                                    <option value="team3">Women's Team</option>
-                                </select>
-                            </div>
-                            <div>
-                                <label for="timePeriod" class="block text-sm font-medium text-mindbuddy-gray mb-2">Time Period</label>
-                                <select id="timePeriod" name="timePeriod" class="w-full p-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-mindbuddy-lightblue text-gray-700 bg-white appearance-none">
-                                    <option value="last30days" data-full-text="Last 30 Days">Last 30 Days</option>
-                                    <option value="last3months" data-full-text="Last 3 Months">Last 3 Months</option>
-                                    <option value="last6months" data-full-text="Last 6 Months">Last 6 Months</option>
-                                    <option value="lastyear" data-full-text="Last Year">Last Year</option>
-                                    <option value="custom" data-full-text="Custom Range">Custom Range</option>
-                                </select>
-                            </div>
-                        </div>
-                        <div id="customDateRange" class="grid grid-cols-1 md:grid-cols-2 gap-6 mb-6 hidden">
-                            <div>
-                                <label for="startDate" class="block text-sm font-medium text-mindbuddy-gray mb-2">Start Date</label>
-                                <input type="date" id="startDate" name="startDate" class="w-full p-2 border border-mindbuddy-lightblue rounded-md focus:outline-none focus:ring-2 focus:ring-mindbuddy-lightblue">
-                            </div>
-                            <div>
-                                <label for="endDate" class="block text-sm font-medium text-mindbuddy-gray mb-2">End Date</label>
-                                <input type="date" id="endDate" name="endDate" class="w-full p-2 border border-mindbuddy-lightblue rounded-md focus:outline-none focus:ring-2 focus:ring-mindbuddy-lightblue">
-                            </div>
-                        </div>
-                        <div class="mb-6">
-                            <label class="block text-sm font-medium text-mindbuddy-gray mb-2">Report Sections</label>
-                            <div class="space-y-2">
-                                <label class="flex items-center">
-                                    <input type="checkbox" name="sections" value="playersJoy" class="mr-2" checked>
-                                    Players Joy
-                                </label>
-                                <label class="flex items-center">
-                                    <input type="checkbox" name="sections" value="playerRewards" class="mr-2" checked>
-                                    Player Rewards
-                                </label>
-                                <label class="flex items-center">
-                                    <input type="checkbox" name="sections" value="appUsage" class="mr-2" checked>
-                                    App Usage
-                                </label>
-                                <label class="flex items-center">
-                                    <input type="checkbox" name="sections" value="teamTogetherness" class="mr-2" checked>
-                                    Team Togetherness
-                                </label>
-                            </div>
-                        </div>
-                        <div>
-                            <button type="submit" class="bg-mindbuddy-navy text-white px-4 py-2 rounded-md hover:bg-opacity-80 transition duration-300">Generate Report</button>
-                        </div>
-                    </form>
-                </section>
-
-                <!-- Loading Animation (initially hidden) -->
-                <div id="loadingAnimation" class="hidden flex flex-col items-center justify-center mb-8">
-                    <img src="Assets/LogoBall.png" alt="Loading" class="w-12 h-12 animate-spin mb-4">
-                    <p id="loadingText" class="text-mindbuddy-navy font-semibold">Generating report...</p>
-                </div>
-
-                <!-- Generated Report (initially hidden) -->
-                <section id="generatedReport" class="hidden bg-white rounded-lg card-shadow p-6 mb-8 border-2 border-mindbuddy-lightblue">
-                    <h2 class="text-2xl font-semibold mb-4 text-mindbuddy-navy">Generated Report</h2>
-                    <div id="reportContent" class="space-y-6"></div>
-                </section>
-
-                <!-- Recent Reports -->
-                <section class="bg-white rounded-lg card-shadow p-6">
-                    <h2 class="text-2xl font-semibold mb-4 text-mindbuddy-navy">Recent Reports</h2>
-                    <div class="space-y-4" id="recentReports">
-                        <!-- Recent reports will be dynamically added here -->
-                    </div>
-                </section>
+            <div>
+                <label for="timePeriod" class="block text-sm font-medium text-mindbuddy-gray mb-2">Time Period</label>
+                <select id="timePeriod" name="timePeriod" class="w-full p-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-mindbuddy-lightblue text-gray-700 bg-white appearance-none">
+                    <option value="last30days" data-full-text="Last 30 Days">Last 30 Days</option>
+                    <option value="last3months" data-full-text="Last 3 Months">Last 3 Months</option>
+                    <option value="last6months" data-full-text="Last 6 Months">Last 6 Months</option>
+                    <option value="lastyear" data-full-text="Last Year">Last Year</option>
+                    <option value="custom" data-full-text="Custom Range">Custom Range</option>
+                </select>
             </div>
         </div>
+        <div id="customDateRange" class="grid grid-cols-1 md:grid-cols-2 gap-6 mb-6 hidden">
+            <div>
+                <label for="startDate" class="block text-sm font-medium text-mindbuddy-gray mb-2">Start Date</label>
+                <input type="date" id="startDate" name="startDate" class="w-full p-2 border border-mindbuddy-lightblue rounded-md focus:outline-none focus:ring-2 focus:ring-mindbuddy-lightblue">
+            </div>
+            <div>
+                <label for="endDate" class="block text-sm font-medium text-mindbuddy-gray mb-2">End Date</label>
+                <input type="date" id="endDate" name="endDate" class="w-full p-2 border border-mindbuddy-lightblue rounded-md focus:outline-none focus:ring-2 focus:ring-mindbuddy-lightblue">
+            </div>
+        </div>
+        <div class="mb-6">
+            <label class="block text-sm font-medium text-mindbuddy-gray mb-2">Report Sections</label>
+            <div class="space-y-2">
+                <label class="flex items-center">
+                    <input type="checkbox" name="sections" value="playersJoy" class="mr-2" checked>
+                    Players Joy
+                </label>
+                <label class="flex items-center">
+                    <input type="checkbox" name="sections" value="playerRewards" class="mr-2" checked>
+                    Player Rewards
+                </label>
+                <label class="flex items-center">
+                    <input type="checkbox" name="sections" value="appUsage" class="mr-2" checked>
+                    App Usage
+                </label>
+                <label class="flex items-center">
+                    <input type="checkbox" name="sections" value="teamTogetherness" class="mr-2" checked>
+                    Team Togetherness
+                </label>
+            </div>
+        </div>
+        <div>
+            <button type="submit" class="bg-mindbuddy-navy text-white px-4 py-2 rounded-md hover:bg-opacity-80 transition duration-300">Generate Report</button>
+        </div>
+    </form>
+</section>
+
+<!-- Loading Animation (initially hidden) -->
+<div id="loadingAnimation" class="hidden flex flex-col items-center justify-center mb-8">
+    <img src="Assets/LogoBall.png" alt="Loading" class="w-12 h-12 animate-spin mb-4">
+    <p id="loadingText" class="text-mindbuddy-navy font-semibold">Generating report...</p>
+</div>
+
+<!-- Generated Report (initially hidden) -->
+<section id="generatedReport" class="hidden bg-white rounded-lg card-shadow p-6 mb-8 border-2 border-mindbuddy-lightblue">
+    <h2 class="text-2xl font-semibold mb-4 text-mindbuddy-navy">Generated Report</h2>
+    <div id="reportContent" class="space-y-6"></div>
+</section>
+
+<!-- Recent Reports -->
+<section class="bg-white rounded-lg card-shadow p-6">
+    <h2 class="text-2xl font-semibold mb-4 text-mindbuddy-navy">Recent Reports</h2>
+    <div class="space-y-4" id="recentReports">
+        <!-- Recent reports will be dynamically added here -->
     </div>
-
-    <script>
-        document.addEventListener('DOMContentLoaded', function() {
-            const reportForm = document.getElementById('reportForm');
-            const timePeriod = document.getElementById('timePeriod');
-            const customDateRange = document.getElementById('customDateRange');
-            const recentReports = document.getElementById('recentReports');
-            const loadingAnimation = document.getElementById('loadingAnimation');
-            const generatedReport = document.getElementById('generatedReport');
-            const reportContent = document.getElementById('reportContent');
-
-            // Show/hide custom date range based on time period selection
-            timePeriod.addEventListener('change', function() {
-                if (this.value === 'custom') {
-                    customDateRange.classList.remove('hidden');
-                } else {
-                    customDateRange.classList.add('hidden');
-                }
-            });
-
-            // Handle report form submission
-            reportForm.addEventListener('submit', function(e) {
-                e.preventDefault();
-                const formData = new FormData(this);
-                const reportData = Object.fromEntries(formData.entries());
-                
-                startLoading();
-                // In a real application, you'd pass reportData to your backend here
-            });
-
-            function startLoading() {
-                const loadingText = document.getElementById('loadingText');
-                const loadingMessages = [
-                    "Analyzing team data...",
-                    "Crunching the numbers...",
-                    "Generating insights...",
-                    "Preparing your report..."
-                ];
-                let messageIndex = 0;
-
-                loadingAnimation.classList.remove('hidden');
-                
-                const messageInterval = setInterval(() => {
-                    loadingText.textContent = loadingMessages[messageIndex];
-                    messageIndex = (messageIndex + 1) % loadingMessages.length;
-                }, 1500);
-
-                // Simulate report generation (replace with actual API call in production)
-                setTimeout(() => {
-                    clearInterval(messageInterval);
-                    loadingAnimation.classList.add('hidden');
-                    generateReport({
-                        team: document.getElementById('team').value,
-                        timePeriod: timePeriod.value,
-                        sections: Array.from(document.querySelectorAll('input[name="sections"]:checked')).map(el => el.value)
-                    });
-                }, 6000); // Adjust time as needed
-            }
-
-            function generateReport(reportData) {
-                let reportHtml = `
-                    <h3 class="text-xl font-semibold mb-4">${reportData.team} Report</h3>
-                    <p class="mb-4">Time Period: ${getFullText(reportData.timePeriod)}</p>
-                `;
-
-                function getTrafficLight(score, lowThreshold = 40, highThreshold = 70) {
-                    if (score < lowThreshold) return '🔴';
-                    if (score < highThreshold) return '🟡';
-                    return '🟢';
-                }
-
-                if (reportData.sections.includes('playersJoy')) {
-                    const joyScore = 75;
-                    reportHtml += `
-                        <div class="mb-6 bg-mindbuddy-lightgray p-4 rounded-lg">
-                            <h4 class="text-lg font-semibold mb-2">Players Joy</h4>
-                            <p class="mb-2">${getTrafficLight(joyScore)} Overall joy score: ${joyScore}% (Target: 80%)</p>
-                            <p class="mb-2">Key observations:</p>
-                            <ul class="list-disc list-inside ml-4 space-y-1">
-                                <li>Increased satisfaction with team activities (15% improvement)</li>
-                                <li>Positive feedback on recent team-building exercises (92% approval rate)</li>
-                                <li>Players reporting 15% increase in motivation levels</li>
-                            </ul>
-                            <p class="mt-2">Top joy-inducing activities:</p>
-                            <ol class="list-decimal list-inside ml-4 space-y-1">
-                                <li>Group meditation sessions (85% participation)</li>
-                                <li>Team-building escape room challenge (100% participation)</li>
-                                <li>Post-practice social gatherings (78% average attendance)</li>
-                            </ol>
-                        </div>
-                    `;
-                }
-
-                if (reportData.sections.includes('playerRewards')) {
-                    const rewardParticipation = 85;
-                    reportHtml += `
-                        <div class="mb-6 bg-mindbuddy-lightgray p-4 rounded-lg">
-                            <h4 class="text-lg font-semibold mb-2">Player Rewards</h4>
-                            <p class="mb-2">${getTrafficLight(rewardParticipation)} Reward program participation: ${rewardParticipation}% (Target: 75%)</p>
-                            <p class="mb-2">Recent awards:</p>
-                            <ul class="list-disc list-inside ml-4 space-y-1">
-                                <li>"Team Player of the Month": Sarah Johnson (for exceptional leadership)
-                                    <ul class="list-circle list-inside ml-4 space-y-1">
-                                        <li>Organized 3 team-building events</li>
-                                        <li>Mentored 2 junior team members</li>
-                                    </ul>
-                                </li>
-                                <li>"Most Improved": Michael Chen (significant progress in mental resilience)
-                                    <ul class="list-circle list-inside ml-4 space-y-1">
-                                        <li>Reduced pre-game anxiety by 40%</li>
-                                        <li>Improved performance under pressure by 25%</li>
-                                    </ul>
-                                </li>
-                                <li>"Mindfulness Champion": Emma Thompson (consistent practice and team encouragement)
-                                    <ul class="list-circle list-inside ml-4 space-y-1">
-                                        <li>Completed 30-day mindfulness challenge</li>
-                                        <li>Led 5 group meditation sessions</li>
-                                    </ul>
-                                </li>
-                            </ul>
-                        </div>
-                    `;
-                }
-
-                if (reportData.sections.includes('appUsage')) {
-                    const appUsageRate = 68;
-                    reportHtml += `
-                        <div class="mb-6 bg-mindbuddy-lightgray p-4 rounded-lg">
-                            <h4 class="text-lg font-semibold mb-2">App Usage</h4>
-                            <p class="mb-2">${getTrafficLight(appUsageRate)} Daily active users: ${appUsageRate}% (Target: 75%)</p>
-                            <p class="mb-2">Usage insights:</p>
-                            <ul class="list-disc list-inside ml-4 space-y-1">
-                                <li>Most used features:
-                                    <ol class="list-decimal list-inside ml-4 space-y-1">
-                                        <li>Team Chat (92% engagement)</li>
-                                        <li>Mood Tracker (85% daily use)</li>
-                                        <li>Guided Meditations (78% weekly use)</li>
-                                    </ol>
-                                </li>
-                                <li>Least used feature: Personal Goal Setting (23% engagement)</li>
-                                <li>Growing popularity: Mindfulness exercises (45% increase this month)</li>
-                            </ul>
-                            <p class="mt-2">User feedback:</p>
-                            <ul class="list-disc list-inside ml-4 space-y-1">
-                                <li>88% find the app "very helpful" for mental preparation</li>
-                                <li>72% report improved team communication through the app</li>
-                                <li>95% would recommend the app to other athletes</li>
-                            </ul>
-                        </div>
-                    `;
-                }
-
-                if (reportData.sections.includes('teamTogetherness')) {
-                    const togethernessScore = 82;
-                    reportHtml += `
-                        <div class="mb-6 bg-mindbuddy-lightgray p-4 rounded-lg">
-                            <h4 class="text-lg font-semibold mb-2">Team Togetherness</h4>
-                            <p class="mb-2">${getTrafficLight(togethernessScore)} Team cohesion score: ${togethernessScore}/100 (Target: 80+)</p>
-                            <p class="mb-2">Key insights:</p>
-                            <ul class="list-disc list-inside ml-4 space-y-1">
-                                <li>Improved communication during practice sessions (30% increase in effective interactions)</li>
-                                <li>Increased participation in voluntary team activities (up by 25%)</li>
-                                <li>Reduced interpersonal conflicts (down by 40% this quarter)</li>
-                            </ul>
-                            <p class="mt-2">Team-building initiatives:</p>
-                            <ol class="list-decimal list-inside ml-4 space-y-1">
-                                <li>Weekly team dinners (85% average attendance)</li>
-                                <li>Monthly outdoor adventure activities (92% participation rate)</li>
-                                <li>Peer-to-peer mentoring program (100% of senior players participating)</li>
-                            </ol>
-                            <p class="mt-2">Areas for improvement:</p>
-                            <ul class="list-disc list-inside ml-4 space-y-1">
-                                <li>Integration of new team members (current satisfaction: 65%)</li>
-                                <li>Cross-positional understanding and cooperation (rated 7/10 by players)</li>
-                            </ul>
-                        </div>
-                    `;
-                }
-
-                // Add the download button at the end of the report
-                reportHtml += `
-                    <div class="mt-8 text-center">
-                        <button id="downloadReportBtn" class="bg-mindbuddy-navy text-white px-6 py-2 rounded-md hover:bg-opacity-80 transition duration-300">
-                            <i class="fas fa-download mr-2"></i>Download Report
-                        </button>
-                    </div>
-                `;
-
-                reportContent.innerHTML = reportHtml;
-                generatedReport.classList.remove('hidden');
-
-                // Add event listener for the download button
-                document.getElementById('downloadReportBtn').addEventListener('click', function() {
-                    // In a real application, you would generate a PDF or other format here
-                    alert('Downloading report... (This is a placeholder for the actual download functionality)');
-                });
-            }
-
-            function getFullText(value) {
-                const option = document.querySelector(`#timePeriod option[value="${value}"]`);
-                return option ? option.dataset.fullText : value;
-            }
-
-            // Simulate some initial recent reports
-            const mockReports = [
-                { team: 'U17 Team', date: '2024-03-15' },
-                { team: 'Senior Team', date: '2024-03-10' },
-                { team: 'Women\'s Team', date: '2024-03-05' }
-            ];
-
-            mockReports.forEach(report => {
-                const reportElement = document.createElement('div');
-                reportElement.className = 'flex justify-between items-center p-4 bg-mindbuddy-lightgray rounded-lg';
-                reportElement.innerHTML = `
-                    <div>
-                        <h3 class="font-semibold text-mindbuddy-navy">${report.team} Report</h3>
-                        <p class="text-sm text-mindbuddy-gray">Generated on ${report.date}</p>
-                    </div>
-                    <button class="text-mindbuddy-lightblue hover:text-mindbuddy-navy transition duration-300">
-                        <i class="fas fa-download mr-2"></i>Download
-                    </button>
-                `;
-                recentReports.appendChild(reportElement);
-            });
-        });
-    </script>
-</body>
-</html>
+</section>
