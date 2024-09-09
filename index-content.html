@@ -1,0 +1,481 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Mindbuddy - Sports Psychologist Dashboard</title>
+    <link href="https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@700&family=Inter:wght@400;500;600&display=swap" rel="stylesheet">
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css" rel="stylesheet">
+    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+    <script>
+        tailwind.config = {
+            theme: {
+                extend: {
+                    colors: {
+                        mindbuddy: {
+                            navy: '#293A4A',
+                            lightblue: '#68B2FC',
+                            gray: '#666666',
+                            lightgray: '#F2F2F2',
+                            green: '#68FC9B',
+                            yellow: '#FFA828',
+                            red: '#B81B0E',
+                        },
+                    },
+                    fontFamily: {
+                        'space-grotesk': ['Space Grotesk', 'sans-serif'],
+                        'inter': ['Inter', 'sans-serif'],
+                    },
+                },
+            },
+        }
+    </script>
+    <style>
+        .card-shadow {
+            box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+        }
+        .popup {
+            display: none;
+            position: fixed;
+            left: 50%;
+            top: 50%;
+            transform: translate(-50%, -50%);
+            background-color: white;
+            padding: 20px;
+            border-radius: 8px;
+            box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+            z-index: 1000;
+        }
+        .overlay {
+            display: none;
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background-color: rgba(0, 0, 0, 0.5);
+            z-index: 999;
+        }
+        .main-content a:not(.btn) {
+            color: #68B2FC; /* mindbuddy-lightblue */
+            text-decoration: none;
+            transition: text-decoration 0.3s ease;
+        }
+        .main-content a:not(.btn):hover {
+            text-decoration: underline;
+        }
+        .user-driven-box {
+            font-family: 'Inter', sans-serif;
+        }
+        .user-driven-box h3 {
+            font-family: 'Space Grotesk', sans-serif;
+        }
+        aside {
+            display: flex;
+            flex-direction: column;
+        }
+    </style>
+</head>
+<body class="bg-gray-100 font-inter">
+    <div class="flex h-screen overflow-hidden">
+
+                <!-- Sidebar -->
+                <aside class="bg-white w-64 flex-shrink-0 overflow-y-auto fixed h-full flex flex-col shadow-lg">
+
+                    <div class="p-4">
+                        <img src="Assets/LogoText.png" alt="Mindbuddy Logo" class="h-8 w-auto mb-8">
+                        <nav>
+                            <ul class="space-y-2">
+                                <li>
+                                    <a href="index.html" class="flex items-center text-mindbuddy-lightblue py-2 px-4 rounded hover:bg-gray-100 transition duration-300">
+                                        <i class="fas fa-chart-line w-6 mr-3 text-center"></i>
+                                        <span>Overview</span>
+                                    </a>
+                                </li>
+                                <li>
+                                    <a href="loggedSessions.html" class="flex items-center text-gray-600 hover:text-mindbuddy-lightblue transition duration-300 py-2 px-4 rounded hover:bg-gray-100">
+                                        <i class="fas fa-clipboard-list w-6 mr-3 text-center"></i>
+                                        <span>Logged Sessions</span>
+                                    </a>
+                                </li>
+                                <li>
+                                    <a href="messaging.html" class="flex items-center text-gray-600 hover:text-mindbuddy-lightblue transition duration-300 py-2 px-4 rounded hover:bg-gray-100">
+                                        <i class="fas fa-comments w-6 mr-3 text-center"></i>
+                                        <span>Messaging</span>
+                                    </a>
+                                </li>
+                                <li>
+                                    <a href="calendar.html" class="flex items-center text-gray-600 hover:text-mindbuddy-lightblue transition duration-300 py-2 px-4 rounded hover:bg-gray-100">
+                                        <i class="fas fa-calendar w-6 mr-3 text-center"></i>
+                                        <span>Calendar</span>
+                                    </a>
+                                </li>
+                                <li>
+                                    <a href="reports.html" class="flex items-center text-gray-600 hover:text-mindbuddy-lightblue transition duration-300 py-2 px-4 rounded hover:bg-gray-100">
+                                        <i class="fas fa-file-alt w-6 mr-3 text-center"></i>
+                                        <span>Reports</span>
+                                    </a>
+                                </li>
+                                <li>
+                                    <a href="mindbuddyHub.html" class="flex items-center text-gray-600 hover:text-mindbuddy-lightblue transition duration-300 py-2 px-4 rounded hover:bg-gray-100">
+                                        <i class="fas fa-book w-6 mr-3 text-center"></i>
+                                        <span>Mindbuddy Hub</span>
+                                    </a>
+                                </li>
+                                <li>
+                                    <a href="settings.html" class="flex items-center text-gray-600 hover:text-mindbuddy-lightblue transition duration-300 py-2 px-4 rounded hover:bg-gray-100">
+                                        <i class="fas fa-cog w-6 mr-3 text-center"></i>
+                                        <span>Settings</span>
+                                    </a>
+                                </li>
+                            </ul>
+                        </nav>
+                    </div>
+                    <div class="mt-auto p-4 border-t border-gray-200">
+                        <a href="#" class="flex items-center text-gray-600 hover:text-mindbuddy-lightblue transition duration-300">
+                            <i class="fas fa-sign-out-alt w-6 mr-3 text-center"></i>
+                            <span>Log out</span>
+                        </a>
+                    </div>
+                </aside>
+
+        <!-- Main content -->
+        <div class="flex-1 overflow-y-auto ml-64 p-8 main-content">
+            <h1 class="text-3xl font-bold mb-8 text-mindbuddy-navy font-space-grotesk">Dashboard Overview</h1>
+            
+            <!-- Team cards -->
+            <div class="grid grid-cols-1 md:grid-cols-3 gap-6 mb-8">
+                <!-- U15 Team -->
+                <div class="bg-white p-6 rounded-lg card-shadow" id="u15-card">
+                    <h3 class="text-xl font-semibold mb-4 text-mindbuddy-navy font-space-grotesk">Team: U15</h3>
+                    <div class="space-y-3 mb-4">
+                        <div class="flex items-center justify-between">
+                            <span class="text-gray-600">Team status:</span>
+                            <div id="u15-status" class="w-3 h-3 rounded-full"></div>
+                        </div>
+                        <div class="flex items-center justify-between">
+                            <span class="text-gray-600">Task completion:</span>
+                            <span id="u15-task-completion" class="font-semibold"></span>
+                        </div>
+                        <div class="flex items-center justify-between">
+                            <span class="text-gray-600">Overall Joy:</span>
+                            <span id="u15-joy" class="font-semibold"></span>
+                        </div>
+                        <div class="flex items-center justify-between">
+                            <span class="text-gray-600">Overall Motivation:</span>
+                            <span id="u15-motivation" class="font-semibold"></span>
+                        </div>
+                    </div>
+                    <div class="mb-4">
+                        <canvas id="u15-chart" width="100%" height="100"></canvas>
+                    </div>
+                    <div class="text-right">
+                        <a href="#" data-popup="team-details" class="text-mindbuddy-lightblue hover:underline">Team details</a>
+                    </div>
+                </div>
+
+                <!-- U17 Team -->
+                <div class="bg-white p-6 rounded-lg card-shadow" id="u17-card">
+                    <h3 class="text-xl font-semibold mb-4 text-mindbuddy-navy font-space-grotesk">Team: U17</h3>
+                    <div class="space-y-3 mb-4">
+                        <div class="flex items-center justify-between">
+                            <span class="text-gray-600">Team status:</span>
+                            <div id="u17-status" class="w-3 h-3 rounded-full"></div>
+                        </div>
+                        <div class="flex items-center justify-between">
+                            <span class="text-gray-600">Task completion:</span>
+                            <span id="u17-task-completion" class="font-semibold"></span>
+                        </div>
+                        <div class="flex items-center justify-between">
+                            <span class="text-gray-600">Overall Joy:</span>
+                            <span id="u17-joy" class="font-semibold"></span>
+                        </div>
+                        <div class="flex items-center justify-between">
+                            <span class="text-gray-600">Overall Motivation:</span>
+                            <span id="u17-motivation" class="font-semibold"></span>
+                        </div>
+                    </div>
+                    <div class="mb-4">
+                        <canvas id="u17-chart" width="100%" height="100"></canvas>
+                    </div>
+                    <div class="text-right">
+                        <a href="#" data-popup="team-details" class="text-mindbuddy-lightblue hover:underline">Team details</a>
+                    </div>
+                </div>
+
+                <!-- U19 Team -->
+                <div class="bg-white p-6 rounded-lg card-shadow" id="u19-card">
+                    <h3 class="text-xl font-semibold mb-4 text-mindbuddy-navy font-space-grotesk">Team: U19</h3>
+                    <div class="space-y-3 mb-4">
+                        <div class="flex items-center justify-between">
+                            <span class="text-gray-600">Team status:</span>
+                            <div id="u19-status" class="w-3 h-3 rounded-full"></div>
+                        </div>
+                        <div class="flex items-center justify-between">
+                            <span class="text-gray-600">Task completion:</span>
+                            <span id="u19-task-completion" class="font-semibold"></span>
+                        </div>
+                        <div class="flex items-center justify-between">
+                            <span class="text-gray-600">Overall Joy:</span>
+                            <span id="u19-joy" class="font-semibold"></span>
+                        </div>
+                        <div class="flex items-center justify-between">
+                            <span class="text-gray-600">Overall Motivation:</span>
+                            <span id="u19-motivation" class="font-semibold"></span>
+                        </div>
+                    </div>
+                    <div class="mb-4">
+                        <canvas id="u19-chart" width="100%" height="100"></canvas>
+                    </div>
+                    <div class="text-right">
+                        <a href="#" data-popup="team-details" class="text-mindbuddy-lightblue hover:underline">Team details</a>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Weekly Recommendations -->
+            <h2 class="text-2xl font-semibold mb-4 text-mindbuddy-navy font-space-grotesk">Weekly Recommendations</h2>
+            <div class="bg-white rounded-lg card-shadow p-6 mb-8">
+                <ul class="space-y-4">
+                    <li class="flex items-center justify-between border-b pb-4">
+                        <div class="flex items-center">
+                            <i class="fas fa-users-cog text-2xl text-mindbuddy-lightblue w-10 mr-4"></i>
+                            <div>
+                                <span class="font-semibold text-mindbuddy-navy">U15 Team:</span>
+                                <p class="text-gray-600">Plan a workshop on team building</p>
+                            </div>
+                        </div>
+                        <a href="#" data-popup="recommendation-details" class="text-mindbuddy-lightblue hover:underline">See details</a>
+                    </li>
+                    <li class="flex items-center justify-between border-b pb-4">
+                        <div class="flex items-center">
+                            <i class="fas fa-clipboard-check text-2xl text-mindbuddy-lightblue w-10 mr-4"></i>
+                            <div>
+                                <span class="font-semibold text-mindbuddy-navy">U17 Team:</span>
+                                <p class="text-gray-600">Talk about the importance of evaluation this week</p>
+                            </div>
+                        </div>
+                        <a href="#" data-popup="recommendation-details" class="text-mindbuddy-lightblue hover:underline">See details</a>
+                    </li>
+                    <li class="flex items-center justify-between">
+                        <div class="flex items-center">
+                            <i class="fas fa-video text-2xl text-mindbuddy-lightblue w-10 mr-4"></i>
+                            <div>
+                                <span class="font-semibold text-mindbuddy-navy">U19 Team:</span>
+                                <p class="text-gray-600">Send Michael Jordan's motivational video to all players</p>
+                            </div>
+                        </div>
+                        <a href="#" data-popup="recommendation-details" class="text-mindbuddy-lightblue hover:underline">See details</a>
+                    </li>
+                </ul>
+            </div>
+
+            <!-- Player List -->
+            <h2 class="text-2xl font-semibold mb-4 text-mindbuddy-navy font-space-grotesk">Player List</h2>
+            <div class="bg-white rounded-lg card-shadow overflow-hidden">
+                <table class="min-w-full divide-y divide-gray-200">
+                    <thead class="bg-gray-50">
+                        <tr>
+                            <th class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">Player</th>
+                            <th class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">Last Session</th>
+                            <th class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">Finished tasks?</th>
+                            <th class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">Actions</th>
+                            <th class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">Profile</th>
+                        </tr>
+                    </thead>
+                    <tbody class="bg-white divide-y divide-gray-200">
+                        <tr class="border-b">
+                            <td class="px-6 py-4 text-gray-800">Goran van der Berg</td>
+                            <td class="px-6 py-4 text-gray-800">2024-04-10</td>
+                            <td class="px-6 py-4"><i class="fas fa-check text-mindbuddy-green"></i></td>
+                            <td class="px-6 py-4"></td>
+                            <td class="px-6 py-4"><a href="#" data-popup="player-profile" class="text-mindbuddy-lightblue hover:underline">See profile</a></td>
+                        </tr>
+                        <tr class="border-b">
+                            <td class="px-6 py-4 text-gray-800">Noah Kowalski</td>
+                            <td class="px-6 py-4 text-gray-800">2024-04-09</td>
+                            <td class="px-6 py-4"><i class="fas fa-check text-mindbuddy-green"></i></td>
+                            <td class="px-6 py-4"></td>
+                            <td class="px-6 py-4"><a href="#" data-popup="player-profile" class="text-mindbuddy-lightblue hover:underline">See profile</a></td>
+                        </tr>
+                        <tr class="border-b">
+                            <td class="px-6 py-4 text-gray-800">Ava Rossi</td>
+                            <td class="px-6 py-4 text-gray-800">2024-04-08</td>
+                            <td class="px-6 py-4"><i class="fas fa-times text-mindbuddy-red"></i></td>
+                            <td class="px-6 py-4"><a href="#" data-popup="send-reminder" class="text-mindbuddy-lightblue hover:underline">Send Reminder</a></td>
+                            <td class="px-6 py-4"><a href="#" data-popup="player-profile" class="text-mindbuddy-lightblue hover:underline">See profile</a></td>
+                        </tr>
+                        <tr class="border-b">
+                            <td class="px-6 py-4 text-gray-800">Elias Svensson</td>
+                            <td class="px-6 py-4 text-gray-800">2024-04-07</td>
+                            <td class="px-6 py-4"><i class="fas fa-check text-mindbuddy-green"></i></td>
+                            <td class="px-6 py-4"></td>
+                            <td class="px-6 py-4"><a href="#" data-popup="player-profile" class="text-mindbuddy-lightblue hover:underline">See profile</a></td>
+                        </tr>
+                        <tr class="border-b">
+                            <td                                 class="px-6 py-4 text-gray-800">Zoe Lefebvre</td>
+                            <td class="px-6 py-4 text-gray-800">2024-04-06</td>
+                            <td class="px-6 py-4"><i class="fas fa-check text-mindbuddy-green"></i></td>
+                            <td class="px-6 py-4"></td>
+                            <td class="px-6 py-4"><a href="#" data-popup="player-profile" class="text-mindbuddy-lightblue hover:underline">See profile</a></td>
+                        </tr>
+                        <tr class="border-b">
+                            <td class="px-6 py-4 text-gray-800">Felix Bauer</td>
+                            <td class="px-6 py-4 text-gray-800">2024-04-05</td>
+                            <td class="px-6 py-4"><i class="fas fa-times text-mindbuddy-red"></i></td>
+                            <td class="px-6 py-4"><a href="#" data-popup="send-reminder" class="text-mindbuddy-lightblue hover:underline">Send Reminder</a></td>
+                            <td class="px-6 py-4"><a href="#" data-popup="player-profile" class="text-mindbuddy-lightblue hover:underline">See profile</a></td>
+                        </tr>
+                    </tbody>
+                </table>
+            </div>
+        </div>
+    </div>
+
+    <!-- Popup and overlay -->
+    <div id="overlay" class="overlay"></div>
+    <div id="popup" class="popup">
+        <h3 id="popupTitle" class="text-xl font-semibold mb-2 text-gray-800"></h3>
+        <p id="popupContent" class="text-gray-800 mb-4"></p>
+        <button id="closePopup" class="bg-mindbuddy-navy text-white px-4 py-2 rounded hover:bg-mindbuddy-lightblue transition duration-300">Close</button>
+    </div>
+
+<script>
+document.addEventListener('DOMContentLoaded', function() {
+    const teams = ['u15', 'u17', 'u19'];
+    const colors = {
+        red: '#FF7970',
+        yellow: '#FFA828',
+        green: '#68FC9B'
+    };
+
+    const months = ['Oct', 'Nov', 'Dec', 'Jan', 'Feb', 'Mar', 'Apr', 'May', 'Jun', 'Jul', 'Aug', 'Sep'];
+
+    teams.forEach(team => {
+        // Simulated data - replace with actual data in a real application
+        const taskCompletion = Math.floor(Math.random() * (100 - 70) + 70); // 70-100%
+        const joy = Math.floor(Math.random() * (100 - 50) + 50); // 50-100
+        const motivation = Math.floor(Math.random() * (100 - 50) + 50); // 50-100
+        const overallScore = (taskCompletion + joy + motivation) / 3;
+
+        // Update task completion, joy, and motivation
+        document.getElementById(`${team}-task-completion`).textContent = `${taskCompletion}%`;
+        document.getElementById(`${team}-joy`).textContent = `${joy}/100`;
+        document.getElementById(`${team}-motivation`).textContent = `${motivation}/100`;
+
+        // Update team status color
+        const statusElement = document.getElementById(`${team}-status`);
+        const cardElement = document.getElementById(`${team}-card`);
+        
+        if (overallScore < 70) {
+            statusElement.style.backgroundColor = colors.red;
+            cardElement.style.borderLeftColor = colors.red;
+        } else if (overallScore < 85) {
+            statusElement.style.backgroundColor = colors.yellow;
+            cardElement.style.borderLeftColor = colors.yellow;
+        } else {
+            statusElement.style.backgroundColor = colors.green;
+            cardElement.style.borderLeftColor = colors.green;
+        }
+
+        // Create more realistic chart data
+        const chartData = Array.from({length: 12}, (_, i) => {
+            const baseValue = 70; // Start from a base value
+            const maxVariation = 15; // Maximum variation up or down
+            return baseValue + Math.floor(Math.random() * maxVariation * 2) - maxVariation;
+        });
+
+        // Create line chart
+        const ctx = document.getElementById(`${team}-chart`).getContext('2d');
+        new Chart(ctx, {
+            type: 'line',
+            data: {
+                labels: months,
+                datasets: [{
+                    label: 'Overall',
+                    data: chartData,
+                    borderColor: '#68B2FC',
+                    tension: 0.1
+                }]
+            },
+            options: {
+                responsive: true,
+                maintainAspectRatio: false,
+                scales: {
+                    y: {
+                        beginAtZero: true,
+                        max: 100
+                    }
+                },
+                plugins: {
+                    legend: {
+                        display: false
+                    }
+                }
+            }
+        });
+    });
+
+    // Popup functionality
+    const overlay = document.getElementById('overlay');
+    const popup = document.getElementById('popup');
+    const popupTitle = document.getElementById('popupTitle');
+    const popupContent = document.getElementById('popupContent');
+    const closePopup = document.getElementById('closePopup');
+
+    function showPopup(title, content) {
+        popupTitle.textContent = title;
+        popupContent.textContent = content;
+        overlay.style.display = 'block';
+        popup.style.display = 'block';
+    }
+
+    function hidePopup() {
+        overlay.style.display = 'none';
+        popup.style.display = 'none';
+    }
+
+    if (closePopup) {
+        closePopup.addEventListener('click', hidePopup);
+    }
+    if (overlay) {
+        overlay.addEventListener('click', hidePopup);
+    }
+
+     // Add click event listeners to specific links
+     document.querySelectorAll('a[data-popup]').forEach(link => {
+        link.addEventListener('click', function(e) {
+            e.preventDefault();
+            const linkText = this.getAttribute('data-popup');
+            let popupTitle, popupContent;
+
+            switch(linkText) {
+                case 'team-details':
+                    popupTitle = 'Team Details';
+                    popupContent = 'Here you can view and edit detailed information about the team.';
+                    break;
+                case 'recommendation-details':
+                    popupTitle = 'Recommendation Details';
+                    popupContent = 'This section provides more information about the recommended action.';
+                    break;
+                case 'send-reminder':
+                    popupTitle = 'Send Reminder';
+                    popupContent = 'You can send a reminder to this player about their upcoming session or task.';
+                    break;
+                case 'player-profile':
+                    popupTitle = 'Player Profile';
+                    popupContent = 'View detailed information about this player, including their performance history and personal details.';
+                    break;
+                default:
+                    popupTitle = 'Information';
+                    popupContent = 'Additional information will be displayed here.';
+            }
+
+            showPopup(popupTitle, popupContent);
+        });
+    });
+});
+</script>
+</body>
+</html>

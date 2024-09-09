@@ -1,0 +1,438 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Mindbuddy - Messaging</title>
+    <link href="https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@700&family=Inter:wght@500;600&display=swap" rel="stylesheet">
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css" rel="stylesheet">
+    <script>
+        tailwind.config = {
+            theme: {
+                extend: {
+                    colors: {
+                        mindbuddy: {
+                            navy: '#293A4A',
+                            lightblue: '#68B2FC',
+                            gray: '#666666',
+                            lightgray: '#F2F2F2',
+                            green: '#68FC9B',
+                            yellow: '#FFA828',
+                            red: '#FF7970',
+                        },
+                    },
+                    fontFamily: {
+                        'space-grotesk': ['Space Grotesk', 'sans-serif'],
+                        'inter': ['Inter', 'sans-serif'],
+                    },
+                },
+            },
+        }
+    </script>
+    <style>
+        #filePreview {
+            max-width: 200px;
+            max-height: 200px;
+            object-fit: contain;
+        }
+        .conversation-list {
+            height: calc(100vh - 64px); /* Adjust based on your header height */
+            overflow-y: auto;
+        }
+        .message-area {
+            height: calc(100vh - 128px); /* Adjust based on your header and input area height */
+            overflow-y: auto;
+        }
+        .modal {
+            display: none;
+            position: fixed;
+            z-index: 1000;
+            left: 0;
+            top: 0;
+            width: 100%;
+            height: 100%;
+            overflow: auto;
+            background-color: rgba(0,0,0,0.4);
+        }
+        .modal-content {
+            background-color: #fefefe;
+            margin: 15% auto;
+            padding: 20px;
+            border: 1px solid #888;
+            width: 80%;
+            max-width: 600px;
+            border-radius: 8px;
+        }
+    </style>
+</head>
+<body class="bg-mindbuddy-lightgray font-inter">
+    <div class="flex h-screen overflow-hidden">
+        <!-- Sidebar -->
+        <aside class="bg-gray-200 w-64 flex-shrink-0 overflow-y-auto fixed h-full flex flex-col">
+            <div class="p-4 flex-grow">
+                <div class="flex items-center mb-8">
+                    <img src="Assets/LogoText.png" alt="Mindbuddy Logo" class="h-8 w-auto">
+                </div>
+                <nav>
+                    <ul>
+                        <li class="mb-4">
+                            <a href="index.html" class="flex items-center text-gray-800 hover:text-mindbuddy-lightblue transition duration-300">
+                                <i class="fas fa-chart-line w-8 mr-3 text-center"></i>
+                                <span>Overview</span>
+                            </a>
+                        </li>
+                        <li class="mb-4">
+                            <a href="loggedSessions.html" class="flex items-center text-gray-800 hover:text-mindbuddy-lightblue transition duration-300">
+                                <i class="fas fa-clipboard-list w-8 mr-3 text-center"></i>
+                                <span>Logged Sessions</span>
+                            </a>
+                        </li>
+                        <li class="mb-4">
+                            <a href="messaging.html" class="flex items-center text-mindbuddy-lightblue transition duration-300">
+                                <i class="fas fa-comments w-8 mr-3 text-center"></i>
+                                <span>Messaging</span>
+                            </a>
+                        </li>
+                        <li class="mb-4">
+                            <a href="calendar.html" class="flex items-center text-gray-800 hover:text-mindbuddy-lightblue transition duration-300">
+                                <i class="fas fa-calendar w-8 mr-3 text-center"></i>
+                                <span>Calendar</span>
+                            </a>
+                        </li>
+                        <li class="mb-4">
+                            <a href="reports.html" class="flex items-center text-gray-800 hover:text-mindbuddy-lightblue transition duration-300">
+                                <i class="fas fa-file-alt w-8 mr-3 text-center"></i>
+                                <span>Reports</span>
+                            </a>
+                        </li>
+                        <li class="mb-4">
+                            <a href="mindbuddyHub.html" class="flex items-center text-gray-800 hover:text-mindbuddy-lightblue transition duration-300">
+                                <i class="fas fa-book w-8 mr-3 text-center"></i>
+                                <span>Mindbuddy Hub</span>
+                            </a>
+                        </li>
+                        <li class="mb-4">
+                            <a href="settings.html" class="flex items-center text-gray-800 hover:text-mindbuddy-lightblue transition duration-300">
+                                <i class="fas fa-cog w-8 mr-3 text-center"></i>
+                                <span>Settings</span>
+                            </a>
+                        </li>
+                    </ul>
+                </nav>
+            </div>
+            <div class="p-4 border-t border-gray-300">
+                <a href="#" class="flex items-center text-gray-800 hover:text-mindbuddy-lightblue transition duration-300">
+                    <i class="fas fa-sign-out-alt w-8 mr-3 text-center"></i>
+                    <span>Log out</span>
+                </a>
+            </div>
+        </aside>
+
+        <!-- Main content -->
+        <div class="flex-1 ml-64 flex">
+            <!-- Conversation list -->
+            <div class="w-1/3 bg-white border-r border-gray-200 flex flex-col">
+                <div class="p-4 border-b border-gray-200 flex justify-between items-center">
+                    <h2 class="text-xl font-semibold">Messages</h2>
+                    <button id="newMessageBtn" class="bg-mindbuddy-navy text-white px-4 py-2 rounded-full hover:bg-mindbuddy-lightblue transition duration-300">
+                        <i class="fas fa-pen"></i>
+                    </button>
+                </div>
+                <div class="conversation-list">
+                    <div class="p-4 border-b border-gray-200 hover:bg-gray-100 cursor-pointer conversation" data-id="u17">
+                        <h3 class="font-semibold">U17 Team</h3>
+                        <p class="text-sm text-gray-600">Group</p>
+                    </div>
+                    <div class="p-4 border-b border-gray-200 hover:bg-gray-100 cursor-pointer conversation" data-id="u19">
+                        <h3 class="font-semibold">U19 Team</h3>
+                        <p class="text-sm text-gray-600">Group</p>
+                    </div>
+                    <div class="p-4 border-b border-gray-200 hover:bg-gray-100 cursor-pointer conversation" data-id="lukas">
+                        <h3 class="font-semibold">Lukas Schmidt</h3>
+                        <p class="text-sm text-gray-600">Player</p>
+                    </div>
+                    <div class="p-4 border-b border-gray-200 hover:bg-gray-100 cursor-pointer conversation" data-id="lukas">
+                        <h3 class="font-semibold">Mats Füllkrüg</h3>
+                        <p class="text-sm text-gray-600">Player</p>
+                    </div>
+                    <div class="p-4 border-b border-gray-200 hover:bg-gray-100 cursor-pointer conversation" data-id="lukas">
+                        <h3 class="font-semibold">Ben Tah</h3>
+                        <p class="text-sm text-gray-600">Player</p>
+                    </div>
+                    <div class="p-4 border-b border-gray-200 hover:bg-gray-100 cursor-pointer conversation" data-id="lukas">
+                        <h3 class="font-semibold">Lars Wendt</h3>
+                        <p class="text-sm text-gray-600">Player</p>
+                    </div>
+                    <div class="p-4 border-b border-gray-200 hover:bg-gray-100 cursor-pointer conversation" data-id="lukas">
+                        <h3 class="font-semibold">Thomas Grieg</h3>
+                        <p class="text-sm text-gray-600">Player</p>
+                    </div>
+                    <div class="p-4 border-b border-gray-200 hover:bg-gray-100 cursor-pointer conversation" data-id="lukas">
+                        <h3 class="font-semibold">Hans Hofmann</h3>
+                        <p class="text-sm text-gray-600">Player</p>
+                    </div>
+                    <div class="p-4 border-b border-gray-200 hover:bg-gray-100 cursor-pointer conversation" data-id="max">
+                        <h3 class="font-semibold">Maximilian Weber</h3>
+                        <p class="text-sm text-gray-600">Player</p>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Message area -->
+            <div class="w-2/3 flex flex-col">
+                <div class="p-4 border-b border-gray-200">
+                    <h2 class="text-xl font-semibold" id="conversationTitle">Select a conversation</h2>
+                </div>
+                <div class="flex-1 p-4 message-area" id="messageArea">
+                    <!-- Messages will be displayed here -->
+                </div>
+                <div class="p-4 border-t border-gray-200">
+                    <form id="messageForm" class="flex flex-col">
+                        <div class="flex items-center mb-2">
+                            <label for="fileInput" class="cursor-pointer mr-2">
+                                <i class="fas fa-paperclip text-mindbuddy-navy"></i>
+                            </label>
+                            <input type="file" id="fileInput" class="hidden" accept="image/*,video/*,.pdf,.doc,.docx,.xls,.xlsx">
+                            <input type="text" id="messageInput" placeholder="Type a message..." class="flex-1 border border-gray-300 rounded-l-full p-2 focus:outline-none focus:border-mindbuddy-navy">
+                            <button type="submit" class="bg-mindbuddy-navy text-white px-4 py-2 rounded-r-full hover:bg-mindbuddy-lightblue transition duration-300">
+                                <i class="fas fa-paper-plane"></i>
+                            </button>
+                        </div>
+                        <span id="fileName" class="text-sm text-gray-600 ml-8"></span>
+                        <div id="previewContainer" class="mt-2 hidden">
+                            <img id="filePreview" src="" alt="File preview" class="rounded">
+                        </div>
+                    </form>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- New message popup -->
+    <div id="newMessagePopup" class="fixed inset-0 bg-black bg-opacity-50 flex items-center justify-center hidden z-50">
+        <div class="bg-white p-8 rounded-lg w-full max-w-md transform transition-all duration-300 scale-90 opacity-0" id="popupContent">
+            <h2 class="text-2xl font-semibold mb-6 text-mindbuddy-navy">New Message</h2>
+            <div class="mb-4">
+                <label for="messageType" class="block text-sm font-medium text-mindbuddy-gray mb-2">Message Type</label>
+                <div class="relative">
+                    <select id="messageType" class="appearance-none w-full bg-white border border-mindbuddy-lightblue text-mindbuddy-navy py-2 px-4 pr-8 rounded-lg shadow-sm focus:outline-none focus:ring-2 focus:ring-mindbuddy-lightblue focus:border-transparent">
+                        <option value="individual">Individual Player</option>
+                        <option value="team">Team Group</option>
+                    </select>
+                    <div class="pointer-events-none absolute inset-y-0 right-0 flex items-center px-2 text-mindbuddy-navy">
+                        <svg class="fill-current h-4 w-4" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 20 20"><path d="M9.293 12.95l.707.707L15.657 8l-1.414-1.414L10 10.828 5.757 6.586 4.343 8z"/></svg>
+                    </div>
+                </div>
+            </div>
+            <div class="mb-4">
+                <label for="recipient" class="block text-sm font-medium text-mindbuddy-gray mb-2">Recipient</label>
+                <div class="relative">
+                    <select id="recipient" class="appearance-none w-full bg-white border border-mindbuddy-lightblue text-mindbuddy-navy py-2 px-4 pr-8 rounded-lg shadow-sm focus:outline-none focus:ring-2 focus:ring-mindbuddy-lightblue focus:border-transparent">
+                        <option value="">Select recipient</option>
+                        <!-- Options will be populated dynamically based on message type -->
+                    </select>
+                    <div class="pointer-events-none absolute inset-y-0 right-0 flex items-center px-2 text-mindbuddy-navy">
+                        <svg class="fill-current h-4 w-4" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 20 20"><path d="M9.293 12.95l.707.707L15.657 8l-1.414-1.414L10 10.828 5.757 6.586 4.343 8z"/></svg>
+                    </div>
+                </div>
+            </div>
+            <div class="flex justify-end space-x-4">
+                <button id="cancelNewMessage" class="px-6 py-2 bg-mindbuddy-lightgray text-mindbuddy-gray rounded-lg hover:bg-gray-300 transition duration-300">Cancel</button>
+                <button id="startNewMessage" class="px-6 py-2 bg-mindbuddy-navy text-white rounded-lg hover:bg-mindbuddy-lightblue transition duration-300">Start Chat</button>
+            </div>
+        </div>
+    </div>
+
+    <script>
+        document.addEventListener('DOMContentLoaded', function() {
+            const popup = document.getElementById('newMessagePopup');
+            const popupContent = document.getElementById('popupContent');
+            const openButton = document.getElementById('newMessageBtn');
+            const cancelButton = document.getElementById('cancelNewMessage');
+            const startButton = document.getElementById('startNewMessage');
+            const messageType = document.getElementById('messageType');
+            const recipient = document.getElementById('recipient');
+
+            const players = [
+                'Lukas Schmidt',
+                'Maximilian Weber',
+                'Felix Bauer',
+                'Jonas Müller',
+                'Niklas Hoffmann',
+                'Leon Fischer',
+                'Tim Schneider',
+                'Paul Wagner',
+                'Jan Becker',
+                'Florian Koch'
+            ];
+
+            const teams = ['U17 Team', 'U19 Team'];
+
+            function populateRecipients() {
+                recipient.innerHTML = '<option value="">Select recipient</option>';
+                const options = messageType.value === 'individual' ? players : teams;
+                options.forEach(option => {
+                    const optionElement = document.createElement('option');
+                    optionElement.value = option;
+                    optionElement.textContent = option;
+                    recipient.appendChild(optionElement);
+                });
+            }
+
+            function showPopup() {
+                popup.classList.remove('hidden');
+                setTimeout(() => {
+                    popupContent.classList.remove('scale-90', 'opacity-0');
+                    popupContent.classList.add('scale-100', 'opacity-100');
+                }, 10);
+            }
+
+            function hidePopup() {
+                popupContent.classList.remove('scale-100', 'opacity-100');
+                popupContent.classList.add('scale-90', 'opacity-0');
+                setTimeout(() => {
+                    popup.classList.add('hidden');
+                }, 300);
+            }
+
+            openButton.addEventListener('click', showPopup);
+            cancelButton.addEventListener('click', hidePopup);
+            startButton.addEventListener('click', () => {
+                // Handle starting a new chat here
+                hidePopup();
+            });
+
+            messageType.addEventListener('change', populateRecipients);
+
+            popup.addEventListener('click', (e) => {
+                if (e.target === popup) {
+                    hidePopup();
+                }
+            });
+
+            // Initial population of recipients
+            populateRecipients();
+
+            const messageForm = document.getElementById('messageForm');
+            const messageInput = document.getElementById('messageInput');
+            const fileInput = document.getElementById('fileInput');
+            const fileName = document.getElementById('fileName');
+            const previewContainer = document.getElementById('previewContainer');
+            const filePreview = document.getElementById('filePreview');
+            const messageArea = document.getElementById('messageArea');
+
+            fileInput.addEventListener('change', function(e) {
+                const file = e.target.files[0];
+                if (file) {
+                    fileName.textContent = file.name;
+                    if (file.type.startsWith('image/')) {
+                        const reader = new FileReader();
+                        reader.onload = function(e) {
+                            filePreview.src = e.target.result;
+                            previewContainer.classList.remove('hidden');
+                        }
+                        reader.readAsDataURL(file);
+                    } else {
+                        previewContainer.classList.add('hidden');
+                    }
+                } else {
+                    fileName.textContent = '';
+                    previewContainer.classList.add('hidden');
+                }
+            });
+
+            const conversations = {
+                u17: [
+                    {sender: 'coach', message: 'Hello team! Our next training session is tomorrow at 4 PM.'},
+                    {sender: 'player', message: 'Thanks coach, I\'ll be there!'},
+                    {sender: 'player', message: 'Can we focus on defensive drills?'},
+                    {sender: 'coach', message: 'Sure, we\'ll incorporate some defensive exercises.'}
+                ],
+                u19: [
+                    {sender: 'coach', message: 'Great game yesterday, team! Let\'s review the match tomorrow.'},
+                    {sender: 'player', message: 'Looking forward to it, coach!'},
+                    {sender: 'player', message: 'Can we discuss our offensive strategy?'}
+                ],
+                lukas: [
+                    {sender: 'coach', message: 'Hi Lukas, how\'s your ankle feeling?'},
+                    {sender: 'player', message: 'Much better, coach. I should be ready for the next match.'},
+                    {sender: 'coach', message: 'Great to hear! Let\'s have a quick check-up before training.'}
+                ],
+                max: [
+                    {sender: 'player', message: 'Coach, can we schedule an extra session this week?'},
+                    {sender: 'coach', message: 'Sure, Max. How about Thursday at 3 PM?'},
+                    {sender: 'player', message: 'Perfect, thank you!'}
+                ]
+            };
+
+            const conversationElements = document.querySelectorAll('.conversation');
+            const conversationTitle = document.getElementById('conversationTitle');
+
+            conversationElements.forEach(element => {
+                element.addEventListener('click', function() {
+                    const conversationId = this.getAttribute('data-id');
+                    displayConversation(conversationId);
+                });
+            });
+
+            function displayConversation(conversationId) {
+                const conversation = conversations[conversationId];
+                messageArea.innerHTML = '';
+                conversationTitle.textContent = document.querySelector(`[data-id="${conversationId}"] h3`).textContent;
+
+                conversation.forEach(message => {
+                    const messageDiv = document.createElement('div');
+                    messageDiv.className = `mb-4 ${message.sender === 'coach' ? '' : 'text-right'}`;
+                    const messageP = document.createElement('p');
+                    messageP.className = `p-2 rounded-lg inline-block ${message.sender === 'coach' ? 'bg-mindbuddy-lightblue text-white' : 'bg-gray-300'}`;
+                    messageP.textContent = message.message;
+                    messageDiv.appendChild(messageP);
+                    messageArea.appendChild(messageDiv);
+                });
+
+                messageArea.scrollTop = messageArea.scrollHeight;
+            }
+
+            messageForm.addEventListener('submit', function(e) {
+                e.preventDefault();
+                const message = messageInput.value.trim();
+                const file = fileInput.files[0];
+
+                if (message || file) {
+                    const messageDiv = document.createElement('div');
+                    messageDiv.className = 'mb-4 text-right';
+
+                    if (message) {
+                        const messageP = document.createElement('p');
+                        messageP.className = 'bg-gray-300 p-2 rounded-lg inline-block';
+                        messageP.textContent = message;
+                        messageDiv.appendChild(messageP);
+                    }
+
+                    if (file) {
+                        const fileP = document.createElement('p');
+                        fileP.className = 'bg-gray-300 p-2 rounded-lg inline-block mt-1';
+                        if (file.type.startsWith('image/')) {
+                            const img = document.createElement('img');
+                            img.src = URL.createObjectURL(file);
+                            img.className = 'max-w-xs max-h-xs rounded';
+                            fileP.appendChild(img);
+                        } else {
+                            fileP.textContent = `Attached: ${file.name}`;
+                        }
+                        messageDiv.appendChild(fileP);
+                    }
+
+                    messageArea.appendChild(messageDiv);
+                    messageInput.value = '';
+                    fileInput.value = '';
+                    fileName.textContent = '';
+                    previewContainer.classList.add('hidden');
+                    messageArea.scrollTop = messageArea.scrollHeight;
+                }
+            });
+        });
+    </script>
+</body>
+</html>
